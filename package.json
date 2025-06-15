@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "imagekitio-react": "^4.3.0",
     "mongoose": "^8.15.2",
     "next": "15.3.3",
