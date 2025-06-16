@@ -1,7 +1,7 @@
 import mongoose,{Schema,model,models} from "mongoose";
 import bcrypt from "bcryptjs";
 
-export interface Iuser{
+export interface Iuser {
     email:string;
     password:string;
     _id?:mongoose.Types.ObjectId;
