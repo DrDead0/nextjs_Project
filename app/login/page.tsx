@@ -30,8 +30,24 @@ function Login() {
 
     const handleGoogleLogin = async () => {
         setLoading(true);
-        await signIn('google', { callbackUrl: '/dashboard' });
-        setLoading(false);
+        setError(null);
+        try {
+            const result = await signIn('google', { 
+                callbackUrl: '/dashboard',
+                redirect: false 
+            });
+            
+            if (result?.error) {
+                setError(`Google login failed: ${result.error}`);
+            } else if (result?.ok) {
+                router.push('/dashboard');
+            }
+        } catch (error) {
+            console.error('Google login error:', error);
+            setError('Google login failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

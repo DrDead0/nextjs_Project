@@ -74,6 +74,18 @@ export const authOptions: NextAuthOptions= {
                 session.user.id = token.id as string;
             }
             return session;
+        },
+        async signIn({ user, account, profile }) {
+            console.log("SignIn callback:", { user, account, profile });
+            return true;
+        },
+        async redirect({ url, baseUrl }) {
+            console.log("Redirect callback:", { url, baseUrl });
+            // Allows relative callback URLs
+            if (url.startsWith("/")) return `${baseUrl}${url}`
+            // Allows callback URLs on the same origin
+            else if (new URL(url).origin === baseUrl) return url
+            return baseUrl
         }
       },
       pages:{
@@ -85,5 +97,6 @@ export const authOptions: NextAuthOptions= {
         maxAge: 30* 24 * 60 * 60, 
         
       },
-      secret: process.env.NEXTAUTH_SECRET
+      secret: process.env.NEXTAUTH_SECRET,
+      debug: process.env.NODE_ENV === 'development',
 };
