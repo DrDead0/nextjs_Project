@@ -1,62 +1,59 @@
-# Vilog
+# Vilog - Video Sharing Platform
 
-Vilog is a modern video uploading and vlogging platform built with Next.js. Users can register, log in, upload videos, view their dashboard, and manage their profile.
+A modern video sharing platform built with Next.js, featuring secure user authentication, video uploads, and a responsive interface.
 
 ## Features
-- User authentication (NextAuth)
-- Video upload and management
-- User dashboard and profile
-- Responsive and modern UI
 
-## Getting Started
+### Video Management
+- Upload videos with custom thumbnails
+- Personal dashboard for video management
+- Delete videos with ownership verification
+- Public video gallery accessible to all users
 
-## 🚀 Features
+### Authentication & Security
+- Multiple authentication providers (Google, GitHub, Email/Password)
+- JWT-based sessions with 30-day expiration
+- Password hashing with bcrypt
+- Input validation and security headers
+- Route protection with middleware
 
-- **🔐 Authentication System**
-  - Email/password authentication with NextAuth.js
-  - Secure password hashing with bcrypt
-  - JWT-based sessions
-  - Protected routes
+### User Interface
+- Responsive design for all devices
+- Clean, modern interface
+- Real-time upload progress tracking
+- Intuitive navigation and user experience
 
-- **🗄️ Database Integration**
-  - MongoDB with Mongoose ODM
-  - TypeScript interfaces for type safety
-  - Automatic timestamps
-  - User model with validation
+## Tech Stack
 
-- **⚡ Modern Tech Stack**
-  - Next.js 14 with App Router
-  - TypeScript for type safety
-  - Tailwind CSS for styling
-  - ESLint for code quality
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Backend**: Next.js API Routes, Node.js
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: NextAuth.js v4
+- **File Storage**: ImageKit
+- **Deployment**: Vercel-ready
 
-## 📋 Prerequisites
+## Prerequisites
 
-Before running this project, make sure you have:
+- Node.js 18+
+- MongoDB database
+- ImageKit account
+- Google/GitHub OAuth credentials (optional)
 
-- Node.js 18+ installed
-- MongoDB database (local or cloud)
-- Git for version control
-
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone <repository-url>
    cd nextjs-poject
    ```
 
 2. **Install dependencies**
    ```bash
    npm install
-   # or
-   yarn install
-   # or
-   pnpm install
    ```
 
-3. **Set up environment variables**
-   Create a `.env.local` file in the root directory:
+3. **Environment setup**
+   Create a `.env.local` file:
    ```env
    # Database
    MONGODB_URI=your_mongodb_connection_string
@@ -65,141 +62,150 @@ Before running this project, make sure you have:
    NEXTAUTH_SECRET=your_nextauth_secret_key
    NEXTAUTH_URL=http://localhost:3000
    
-   # Optional: For additional providers
-   # GITHUB_ID=your_github_client_id
-   # GITHUB_SECRET=your_github_client_secret
-   # GOOGLE_CLIENT_ID=your_google_client_id
-   # GOOGLE_CLIENT_SECRET=your_google_client_secret
+   # ImageKit
+   NEXT_PUBLIC_PUBLIC_KEY=your_imagekit_public_key
+   IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
+   IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
+   
+   # OAuth (Optional)
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   GITHUB_ID=your_github_client_id
+   GITHUB_SECRET=your_github_client_secret
    ```
 
-4. **Start the development server**
+4. **Start development server**
    ```bash
    npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
    ```
 
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 nextjs-poject/
 ├── app/                    # Next.js App Router
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── models/                # Database models
-│   ├── user.ts           # User schema and interface
-│   └── video.ts          # Video model (if applicable)
-├── utils/                 # Utility functions
-│   ├── auth.ts           # NextAuth configuration
-│   └── db.ts             # Database connection
-├── public/               # Static assets
-└── package.json          # Dependencies and scripts
+│   ├── api/               # API Routes
+│   ├── components/        # Reusable components
+│   ├── dashboard/         # User dashboard
+│   ├── login/            # Login page
+│   ├── register/         # Registration page
+│   └── profile/          # User profile
+├── models/               # MongoDB schemas
+├── utils/                # Utility functions
+├── middleware.ts         # NextAuth middleware
+└── next.config.ts       # Next.js configuration
 ```
 
-## 🔧 Configuration
+## Configuration
 
-### Database Setup
+### MongoDB Setup
+1. Create a MongoDB database (local or MongoDB Atlas)
+2. Update `MONGODB_URI` in your environment variables
 
-The project uses MongoDB with Mongoose. The User model includes:
+### ImageKit Setup
+1. Sign up at [ImageKit.io](https://imagekit.io)
+2. Get your public key, private key, and URL endpoint
+3. Update the ImageKit environment variables
 
-- Email (unique, required)
-- Password (hashed, required)
-- Automatic timestamps (createdAt, updatedAt)
+### OAuth Setup
+1. **Google OAuth**: Create credentials in Google Cloud Console
+2. **GitHub OAuth**: Create OAuth App in GitHub Developer Settings
+3. Add appropriate callback URLs for each provider
 
-### Authentication Setup
+## Usage
 
-NextAuth.js is configured with:
+### For Users
+1. Browse videos on the homepage
+2. Register or login to upload videos
+3. Use the dashboard to manage your videos
+4. Upload videos with titles, descriptions, and thumbnails
+5. Delete your own videos when needed
 
-- Credentials provider for email/password login
-- JWT strategy for sessions
-- Custom login page at `/login`
-- 30-day session duration
+### For Developers
+- API routes are located in `app/api/`
+- Database models are in `models/`
+- Components are in `app/components/`
+- Add new pages in the `app/` directory
+
+## API Endpoints
+
+- `GET /api/video` - Fetch all videos or filter by user email
+- `POST /api/video` - Upload a new video (authenticated)
+- `DELETE /api/video?id=<videoId>` - Delete a video (authenticated, owner only)
+- `GET /api/imageKit-auth` - Get ImageKit authentication tokens
+
+## Security Features
+
+- JWT-based authentication with NextAuth.js
 - Password hashing with bcrypt
+- Input validation and sanitization
+- Security headers (XSS protection, clickjacking prevention)
+- Route protection with middleware
+- Ownership verification for video operations
 
-## 🚀 Available Scripts
+## Database Schema
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## 🔒 Security Features
-
-- **Password Hashing**: All passwords are hashed using bcrypt with salt rounds of 10
-- **JWT Tokens**: Secure session management with JWT
-- **Input Validation**: TypeScript interfaces ensure type safety
-- **Environment Variables**: Sensitive data stored in environment variables
-
-## 📝 API Endpoints
-
-The authentication system provides:
-
-- `/api/auth/signin` - Sign in page
-- `/api/auth/signout` - Sign out
-- `/api/auth/session` - Get current session
-- `/api/auth/csrf` - CSRF protection
-
-## 🎯 Usage Examples
-
-### Creating a User
 ```typescript
-import User from '@/models/user';
+// User Model
+interface User {
+  email: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const newUser = new User({
-  email: 'user@example.com',
-  password: 'securepassword123'
-});
-
-await newUser.save();
-```
-
-### Protecting Routes
-```typescript
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/utils/auth';
-
-const session = await getServerSession(authOptions);
-if (!session) {
-  redirect('/login');
+// Video Model
+interface Video {
+  title: string;
+  description: string;
+  videoUrl: string;
+  thumbnailUrl: string;
+  owner: {
+    id: string;
+    name?: string;
+    email: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
 }
 ```
 
-## 🤝 Contributing
+## Deployment
+
+### Vercel Deployment
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy
+
+### Production Environment Variables
+```env
+NEXTAUTH_URL=https://your-domain.com
+MONGODB_URI=your_production_mongodb_uri
+NEXTAUTH_SECRET=your_production_secret
+```
+
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
 5. Open a Pull Request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
-## 🆘 Support
+## Support
 
-If you encounter any issues:
-
-1. Check the [Next.js documentation](https://nextjs.org/docs)
-2. Review the [NextAuth.js documentation](https://next-auth.js.org)
-3. Open an issue in the repository
-
-## 🔮 Future Enhancements
-
-- [ ] Add social login providers (Google, GitHub, Twitter)
-- [ ] Implement email verification
-- [ ] Add password reset functionality
-- [ ] Create user profile management
-- [ ] Add role-based access control
-- [ ] Implement rate limiting
-- [ ] Add comprehensive testing
+For issues and questions:
+1. Check existing issues
+2. Create a new issue with detailed information
+3. Include error messages and reproduction steps
 
 ---
 
-**Built with ❤️ using Next.js, NextAuth.js, and MongoDB**
+Built with Next.js, NextAuth.js, MongoDB, and ImageKit.
