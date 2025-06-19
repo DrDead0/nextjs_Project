@@ -13,6 +13,11 @@ export interface IVideo {
     videoUrl: string;
     thumbnailUrl: string;
     controllers?:boolean;
+    owner: {
+        id: string;
+        name?: string;
+        email: string;
+    };
     transformation?:{
         height: number;
         width: number;
@@ -28,6 +33,11 @@ const videoSchema = new Schema<IVideo>({
     thumbnailUrl: {type: String, required: true,},
     videoUrl: {type: String, required: true,},
     controllers:{type: Boolean, default: true,},
+    owner: {
+        id: { type: String, required: true },
+        name: { type: String },
+        email: { type: String, required: true }
+    },
     transformation: {
         height:{type: Number, default: V_Dimensions.height},
         width:{type: Number, default: V_Dimensions.width},

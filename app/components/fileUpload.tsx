@@ -5,8 +5,17 @@ import {
 } from "@imagekit/next";
 import { useState } from "react";
 
-interface FileUploadProps{
-    onSuccess: (res: unknown) => void;
+interface FileUploadResponse {
+    url?: string;
+    fileId?: string;
+    name?: string;
+    size?: number;
+    filePath?: string;
+    thumbnailUrl?: string;
+}
+
+interface FileUploadProps {
+    onSuccess: (res: FileUploadResponse) => void;
     onProgress?: (progress: number) => void;
     fileType?: "image" | "video";
 }
