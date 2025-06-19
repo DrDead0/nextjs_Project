@@ -56,7 +56,7 @@ const FileUpload = ({onSuccess,onProgress,fileType}:FileUploadProps) => {
         setError(null);
         setSuccess(null);
         try {
-            const authRes = await fetch("/api/auth/imageKit-auth");
+            const authRes = await fetch("/api/imageKit-auth");
             const auth = await authRes.json();
             const res = await upload({
                 file: selectedFile,

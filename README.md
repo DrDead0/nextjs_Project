@@ -1,6 +1,14 @@
-# Next.js Authentication Project
+# Vilog
 
-A modern Next.js application with user authentication, MongoDB integration, and TypeScript support. Built with Next.js 14, NextAuth.js, and Mongoose.
+Vilog is a modern video uploading and vlogging platform built with Next.js. Users can register, log in, upload videos, view their dashboard, and manage their profile.
+
+## Features
+- User authentication (NextAuth)
+- Video upload and management
+- User dashboard and profile
+- Responsive and modern UI
+
+## Getting Started
 
 ## 🚀 Features
 

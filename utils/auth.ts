@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 // import GithubProvider from "next-auth/providers/github"
 // import TwitterProvider from "next-auth/providers/twitter"
 // import EmailProvider from "next-auth/providers/email"
-// import GoogleProvider from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { dbConnect } from "./db";
 import User from "@/models/user";
@@ -10,7 +10,6 @@ import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions= {
     providers: [
-
         //the below options will be available soon..!
         // GithubProvider({
         //   clientId: process.env.GITHUB_ID!,
@@ -25,13 +24,13 @@ export const authOptions: NextAuthOptions= {
         //     from: process.env.EMAIL_FROM,
         //     // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
         //   }),
-        //   GoogleProvider({
-        //     clientId: process.env.GOOGLE_CLIENT_ID!,
-        //     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        //     allowDangerousEmailAccountLinking: true,
-        //   }),
-          //Credential login
-          CredentialsProvider({
+        GoogleProvider({
+          clientId: process.env.GOOGLE_CLIENT_ID!,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+          allowDangerousEmailAccountLinking: true,
+        }),
+        //Credential login
+        CredentialsProvider({
             name:"Credentials",
             credentials:{
                 email:{label:"Email",type:"text"},

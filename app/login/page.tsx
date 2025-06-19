@@ -24,13 +24,13 @@ function Login() {
         if (result?.error) {
             setError("Invalid email or password");
         } else {
-            router.push('/');
+            router.push('/dashboard');
         }
     };
 
     const handleGoogleLogin = async () => {
         setLoading(true);
-        await signIn('google', { callbackUrl: '/' });
+        await signIn('google', { callbackUrl: '/dashboard' });
         setLoading(false);
     };
 

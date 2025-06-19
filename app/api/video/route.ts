@@ -7,7 +7,7 @@ import { authOptions } from "@/utils/auth";
 export async function GET(){
     try{
         await dbConnect();
-        const videos = await video.findOne({}).sort({createdAt: -1}).lean();
+        const videos = await video.find({}).sort({createdAt: -1}).lean();
         if(!videos||videos.length===0){
             return NextResponse.json([], {status:200});
         }
