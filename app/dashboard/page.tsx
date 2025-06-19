@@ -1,7 +1,7 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import FileUpload from "../components/fileUpload";
 import Image from "next/image";
 
@@ -43,13 +43,7 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [showUploadForm, setShowUploadForm] = useState(false);
 
-  useEffect(() => {
-    if (session?.user?.email) {
-      fetchUserVideos();
-    }
-  }, [session?.user?.email]);
-
-  async function fetchUserVideos() {
+  const fetchUserVideos = useCallback(async () => {
     if (!session?.user?.email) return;
     
     setLoading(true);
@@ -71,7 +65,11 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [session?.user?.email]);
+
+  useEffect(() => {
+    fetchUserVideos();
+  }, [fetchUserVideos]);
 
   if (status === "loading") return <div>Loading...</div>;
   if (!session) return <div>Access denied. Please <Link href="/login">login</Link> to upload videos.</div>;

@@ -25,7 +25,6 @@ export default function Home() {
 
   useEffect(() => {
     fetchVideos();
-    // eslint-disable-next-line
   }, []);
 
   async function fetchVideos() {
