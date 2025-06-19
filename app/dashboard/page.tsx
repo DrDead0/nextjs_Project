@@ -42,6 +42,7 @@ export default function Dashboard() {
   const [ownerName, setOwnerName] = useState(session?.user?.name || "");
   const [uploading, setUploading] = useState(false);
   const [showUploadForm, setShowUploadForm] = useState(false);
+  const [deletingVideo, setDeletingVideo] = useState<string | null>(null);
 
   const fetchUserVideos = useCallback(async () => {
     if (!session?.user?.email) return;
@@ -66,6 +67,33 @@ export default function Dashboard() {
       setLoading(false);
     }
   }, [session?.user?.email]);
+
+  const handleDeleteVideo = async (videoId: string) => {
+    if (!confirm("Are you sure you want to delete this video? This action cannot be undone.")) {
+      return;
+    }
+
+    setDeletingVideo(videoId);
+    try {
+      const res = await fetch(`/api/video?id=${videoId}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to delete video");
+      }
+
+      setSuccess("Video deleted successfully!");
+      fetchUserVideos(); // Refresh the video list
+    } catch (err: unknown) {
+      let message = "Failed to delete video";
+      if (err instanceof Error) message = err.message;
+      setError(message);
+    } finally {
+      setDeletingVideo(null);
+    }
+  };
 
   useEffect(() => {
     fetchUserVideos();
@@ -232,6 +260,22 @@ export default function Dashboard() {
                 Uploaded by: {vid.owner?.name || vid.owner?.email || 'Anonymous'}
               </div>
               <a href={vid.videoUrl} target="_blank" rel="noopener noreferrer" style={{color: '#0070f3', textDecoration: 'underline'}}>Watch Video</a>
+              <button
+                onClick={() => handleDeleteVideo(vid._id)}
+                disabled={deletingVideo === vid._id}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 6,
+                  background: '#ff4444',
+                  color: '#fff',
+                  border: 'none',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  marginLeft: 8
+                }}
+              >
+                {deletingVideo === vid._id ? 'Deleting...' : 'Delete'}
+              </button>
             </div>
           ))}
         </div>
